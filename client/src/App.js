@@ -2,6 +2,7 @@ import './App.css';
 import './custom.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import API from './API';
+import Home from './components/home';
 import { Container, Row } from 'react-bootstrap';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -20,6 +21,7 @@ function App2() {
   const [loggedIn,setLoggedIn]=useState(false);
   const [user, setUser] = useState({});
   const [message, setMessage] = useState('');
+  const services=[1];
   
   const navigate = useNavigate();
 
@@ -58,7 +60,7 @@ function App2() {
     <Container fluid>
        <Row className="vheight-100">
             <Routes> 
-               <Route path='/' /*element={(<Home cc={cc} setCc = {setCc} piano={piano} setPiano={setPiano} updateUser={updateUser} loggedIn={loggedIn} deleteUser={deleteUser} */></Route>
+               <Route path='/' element={(<Home services={services} /*cc={cc} setCc = {setCc} piano={piano} setPiano={setPiano} updateUser={updateUser} */loggedIn={loggedIn}  ></Home>)}></Route>
                <Route path='/login'  element={loggedIn ? <Navigate to='/officer' /> : <LoginForm login={doLogin} loginError={message} setLoginError={setMessage} /> }/>
                <Route path='/officer'  element={loggedIn ? <Navigate to='/officer' /> : <Navigate to='/' />}/>
             </Routes>
