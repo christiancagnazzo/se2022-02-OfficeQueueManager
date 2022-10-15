@@ -1,6 +1,6 @@
 from msilib.schema import Error
 from django.db import models
-from django.db.models import Count
+from django.db.models import Count, Sum
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import date
 
@@ -42,6 +42,9 @@ class Queue(models.Model):
     
     def __str__(self) -> str:
         return f"{self.date}, {self.service}, {self.actual}, {self.last}"
+
+
+
 
 class User(models.Model):
     username = models.CharField(max_length=30, primary_key=True)
@@ -111,10 +114,6 @@ class Dao():
             candidate_queues[pos].actual += 1
             candidate_queues[pos].save()
             return candidate_queues[pos].service.tag + str(q.actual)
-            
-                
-            
-
 
     def get_a_ticket(service_name):
         
@@ -129,8 +128,36 @@ class Dao():
             service = service_id, 
             defaults={'actual': 0, 'last': 0})
         queue.last += 1
-        queue.save(force_update=True)
+        queue.save()
         return queue.last
+
+    def stats():
+        this_month = date.today().strftime("%m")
+        this_isoweek = int(date.today().strftime("%V"))
+        today = date.today().strftime("%Y-%m-%d")
+        monthly_data = Queue.objects.filter(date__month = this_month)
+        stats = {
+            'daily': {},
+            'weekly': {},
+            'monthly': {}
+        }
+        for ser in Service.objects.values_list('name', flat=True):
+            for x in stats:
+                stats[x][ser] = 0
+        
+        for q in monthly_data.filter(date=today):
+            stats['daily'][q.service.name] = q.actual
+        
+        for q in monthly_data.filter(date__week=this_isoweek).values('service__name').annotate(tot=Sum('actual')):
+            stats['weekly'][q['service__name']] = q['tot']
+
+        for q in monthly_data.values('service__name').annotate(tot=Sum('actual')):
+            stats['monthly'][q['service__name']] = q['tot']
+        
+        return stats
+
+
+
 
 
             
