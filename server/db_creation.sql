@@ -55,4 +55,16 @@ INSERT INTO demo_queue_user (username, password, salt, role) VALUES
 ('officer3', 'officer', 'no salt atm', 'officer');
 
 
-UPDATE demo_queue_queue SET actual = 0
+UPDATE demo_queue_queue SET last = 4
+SELECT * FROM demo_queue_counter
+SELECT * FROM demo_queue_service
+
+INSERT INTO demo_queue_service(id, tag, name, estimated_time) VALUES 
+(5, "DM", "Deposit money", 5),
+(6, "SP", "Sending packages", 10)
+
+INSERT INTO demo_queue_queue(date, service_id, actual, 'last') VALUES
+('2022-10-15', 5, 0,4)
+
+INSERT INTO demo_queue_counter(_id, service_id) VALUES
+(10,5),(11,5), (11,6)
