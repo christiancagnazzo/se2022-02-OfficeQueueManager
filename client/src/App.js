@@ -21,30 +21,60 @@ function App2() {
   const [loggedIn,setLoggedIn]=useState(false);
   const [user, setUser] = useState({});
   const [message, setMessage] = useState('');
-  const services=[1];
+  const [services,setServices]=useState([]);
+  const [dirty,setDirty]=useState(true)
   
   const navigate = useNavigate();
+  useEffect(()=> {
+    const checkAuth = async() => {
+      if (dirty && loggedIn)  
+        try {
+          const user = await API.getUserInfo();
+          setLoggedIn(true);
+          setUser(user);
+          setDirty(false)
+        } catch(err) {
+          handleError(err);
+        }
+    };
+      checkAuth();
+}, [dirty,loggedIn,user]);
+
+useEffect(()=> {
+  const getInfos = async() => {
+    if (dirty)  
+      try {
+        const services = await API.getAllInfos();
+        setServices(services)
+        setDirty(false)
+      } catch(err) {
+        handleError(err);
+      }
+  };
+  getInfos();
+}, [dirty]);
+
+function handleError(err){
+  console.log(err);
+}
+
 
   const doLogout = async () => {
     await API.logout();
     setLoggedIn(false);
     setUser({});
-    /*
-    setFirsttime(true);
     setDirty(true);
-    i'll see after if ill need it
-    */
     navigate('/');
   }
 
-  // used to login
+  
   const login = ()=>{navigate("/login")}
   const doLogin = (credentials) => {
     API.login(credentials)
       .then( user => {
         setLoggedIn(true);
         setUser(user);
-        //setFirsttime(true);
+        setDirty(true);
         setMessage('');
         navigate('/officer');
       })
@@ -54,10 +84,9 @@ function App2() {
         )
   }
 
-  const updateQueue= (n)=>{
-    //post 
-    //get
-    //setdirty true
+  const updateQueue= async (n)=>{
+    await API.postQueue().catch(err => handleError(err)) 
+    setDirty(true)
   }
 
 

@@ -10,6 +10,23 @@ async function getAllInfos(){
         throw services;
     }
 }
+async function postQueue(n) {
+  let response = await fetch(URL, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(n),
+  });
+  if (response.ok) {
+    const queue = await response.json();
+    return queue;
+  } else {
+    const errDetail = await response.json();
+    throw errDetail.message;
+  }
+}
 
   async function login(credentials) {
     let response = await fetch(URL+'sessions', {
@@ -20,7 +37,6 @@ async function getAllInfos(){
       },
       body: JSON.stringify(credentials),
     });
-    
     if (response.ok) {
       const user = await response.json();
       return user;
@@ -44,5 +60,5 @@ async function getAllInfos(){
     }
   }
 
-const API = {getAllInfos,login,logout, getUserInfo};
+const API = {getAllInfos,login,logout, getUserInfo,postQueue};
 export default API;
