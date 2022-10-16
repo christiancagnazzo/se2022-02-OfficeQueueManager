@@ -54,13 +54,20 @@ function App2() {
         )
   }
 
+  const updateQueue= (n)=>{
+    //post 
+    //get
+    //setdirty true
+  }
+
+
   return (
     <>
     <MyNavbar2 loggedIn={loggedIn} logout={doLogout} login={login}/>
     <Container fluid>
        <Row className="vheight-100">
             <Routes> 
-               <Route path='/' element={(<Home services={services} /*cc={cc} setCc = {setCc} piano={piano} setPiano={setPiano} updateUser={updateUser} */loggedIn={loggedIn}  ></Home>)}></Route>
+               <Route path='/' element={(loggedIn ? <Navigate to='/officer' /> : <Home services={services} updateQueue={updateQueue} /*cc={cc} setCc = {setCc} piano={piano} setPiano={setPiano} updateUser={updateUser} */loggedIn={loggedIn}  ></Home>)}></Route>
                <Route path='/login'  element={loggedIn ? <Navigate to='/officer' /> : <LoginForm login={doLogin} loginError={message} setLoginError={setMessage} /> }/>
                <Route path='/officer'  element={loggedIn ? <Navigate to='/officer' /> : <Navigate to='/' />}/>
             </Routes>
