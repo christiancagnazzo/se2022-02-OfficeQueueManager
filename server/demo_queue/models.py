@@ -1,4 +1,4 @@
-from msilib.schema import Error
+from enum import unique
 from django.db import models
 from django.db.models import Count, Sum
 from django.core.exceptions import ObjectDoesNotExist
@@ -11,6 +11,12 @@ class Service(models.Model):
     tag = models.CharField(max_length = 5)
     name = models.CharField(max_length = 30)
     estimated_time = models.IntegerField()  
+
+    class Meta:
+        constraints = [models.UniqueConstraint(
+            fields=['name', 'tag'],
+            name='unique_0'
+        )]
 
     def __str__(self) -> str:
         return f"{self.id}, {self.tag}, {self.name}, {self.estimated_time}"
@@ -66,7 +72,7 @@ class Dao():
         try:
             service_info = Service.objects.get(name=service_name)
         except ObjectDoesNotExist:
-            raise Error
+            raise Exception()
         today = date.today().strftime("%Y-%m-%d")
         queue = Queue.objects.get(service = service_info.id, date=today)
         n_r = queue.last - queue.actual
@@ -122,7 +128,7 @@ class Dao():
         try:
             service_id = Service.objects.get(name=service_name,)
         except ObjectDoesNotExist:
-            raise Error
+            raise Exception()
         today = date.today().strftime("%Y-%m-%d")
         queue, _ = Queue.objects.get_or_create(
             date=today,
