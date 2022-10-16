@@ -1,32 +1,35 @@
-from msilib.schema import Error
 from django.db import models
 from django.db.models import Count, Sum
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import date
+import logging
+
 
 # Create your models here.
 
 class Service(models.Model):
     id = models.BigAutoField(primary_key=True)
-    tag = models.CharField(max_length = 5)
-    name = models.CharField(max_length = 30)
-    estimated_time = models.IntegerField()  
+    tag = models.CharField(max_length=5)
+    name = models.CharField(max_length=30)
+    estimated_time = models.IntegerField()
 
     def __str__(self) -> str:
         return f"{self.id}, {self.tag}, {self.name}, {self.estimated_time}"
 
+
 class Counter(models.Model):
     _id = models.IntegerField()
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
-    
+
     class Meta:
         constraints = [models.UniqueConstraint(
             fields=['id', 'service'],
             name='unique_1'
         )]
-    
+
     def __str__(self) -> str:
         return f"{self._id}, {self.service}"
+
 
 class Queue(models.Model):
     date = models.DateField()
@@ -39,11 +42,9 @@ class Queue(models.Model):
             fields=['date', 'service'],
             name='unique_2'
         )]
-    
+
     def __str__(self) -> str:
         return f"{self.date}, {self.service}, {self.actual}, {self.last}"
-
-
 
 
 class User(models.Model):
@@ -55,33 +56,35 @@ class User(models.Model):
     def __str__(self) -> str:
         return f"{self.username}, {self.password}, {self.salt}, {self.role}"
 
-class Dao():
-    def get_services():
-        #returns <QuerySet [('Shipping',), ('Account Management',), ('Credit Card',), ('Pension',)]>
-        return Service.objects.values_list('name')
-    
-    
 
-    def minimum_waiting_time(service_name):
+class Dao:
+    def __init__(self):
+        self.logger = logging.getLogger(__name__)
+
+    def get_services(self):
+        # returns <QuerySet [('Shipping',), ('Account Management',), ('Credit Card',), ('Pension',)]>
+        return Service.objects.values_list('name')
+
+    def minimum_waiting_time(self, service_name):
         try:
             service_info = Service.objects.get(name=service_name)
         except ObjectDoesNotExist:
-            raise Error
+            self.logger.warning("ObjectDoesNotExist")
         today = date.today().strftime("%Y-%m-%d")
-        queue = Queue.objects.get(service = service_info.id, date=today)
+        queue = Queue.objects.get(service=service_info.id, date=today)
         n_r = queue.last - queue.actual
         t_r = service_info.estimated_time
         counters = Counter.objects.filter(service_id=service_info.id).annotate(num_services=Count('_id'))
         sum = 0
         for c in counters:
-            sum += float(1/c.num_services)
-        
-        return t_r * (( n_r / sum) + 1/2)
+            sum += float(1 / c.num_services)
 
-    def next_client(counter_id):
+        return t_r * ((n_r / sum) + 1 / 2)
+
+    def next_client(self, counter_id):
         services_list = Counter.objects.filter(_id=counter_id).values_list('service_id', flat=True)
         today = date.today().strftime("%Y-%m-%d")
-        queues = Queue.objects.filter(service__in = services_list, date=today)
+        queues = Queue.objects.filter(service__in=services_list, date=today)
         if len(queues) == 0:
             return -1
         max_length = -1
@@ -103,39 +106,40 @@ class Dao():
             return candidate_queues[0].service.tag + str(candidate_queues[0].actual)
         else:
             min_service_time = -1
-            
+
             pos = -1
             for idx, q in enumerate(candidate_queues):
                 ser = q.service
                 if min_service_time > ser.estimated_time:
                     min_service_time = ser.estimated_time
                     pos = idx
-                    
+
             candidate_queues[pos].actual += 1
             candidate_queues[pos].save()
             return candidate_queues[pos].service.tag + str(q.actual)
 
-    def get_a_ticket(service_name):
-        
+    def get_a_ticket(self, service_name):
+
         service_id = None
         try:
-            service_id = Service.objects.get(name=service_name,)
+            service_id = Service.objects.get(name=service_name, )
         except ObjectDoesNotExist:
-            raise Error
+            self.logger.warning("ObjectDoesNotExist")
         today = date.today().strftime("%Y-%m-%d")
         queue, _ = Queue.objects.get_or_create(
             date=today,
-            service = service_id, 
+            service=service_id,
             defaults={'actual': 0, 'last': 0})
         queue.last += 1
         queue.save()
         return queue.last
 
-    def stats():
+    def stats(self):
+        print("inter")
         this_month = date.today().strftime("%m")
         this_isoweek = int(date.today().strftime("%V"))
         today = date.today().strftime("%Y-%m-%d")
-        monthly_data = Queue.objects.filter(date__month = this_month)
+        monthly_data = Queue.objects.filter(date__month=this_month)
         stats = {
             'daily': {},
             'weekly': {},
@@ -144,21 +148,14 @@ class Dao():
         for ser in Service.objects.values_list('name', flat=True):
             for x in stats:
                 stats[x][ser] = 0
-        
+
         for q in monthly_data.filter(date=today):
             stats['daily'][q.service.name] = q.actual
-        
+
         for q in monthly_data.filter(date__week=this_isoweek).values('service__name').annotate(tot=Sum('actual')):
             stats['weekly'][q['service__name']] = q['tot']
 
         for q in monthly_data.values('service__name').annotate(tot=Sum('actual')):
             stats['monthly'][q['service__name']] = q['tot']
-        
+
         return stats
-
-
-
-
-
-            
-
