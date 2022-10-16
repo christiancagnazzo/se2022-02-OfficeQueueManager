@@ -27,16 +27,14 @@ def timeToString(hour,minute):
 #s_i_r is an indicator variable equal to 1 if counter i can serve request r, 0 otherwise.
 def minWaitingTime(t_r,n_r,k_i,s_i_r):
     if inputCheck(t_r,n_r,k_i,s_i_r):
-        sum_k = sum(map(lambda i,j:1/i*s_i_r[j] ,k_i,s_i_r))
-        #print("sun_k:"+str(sum_k))
-        T_r = t_r * (n_r/sum_k + 0.5)
-        time = toHourAndMInutes(T_r)
-        #print(time)
-        return timeToString(time[0],time[1]) 
+            sum_k = sum(map(lambda i,j:1/i * j ,k_i,s_i_r))
+            #print("sun_k:"+str(sum_k))
+            T_r = t_r * (n_r/sum_k + 0.5)
+            time = toHourAndMInutes(T_r)
+            return timeToString(time[0],time[1])
     else:
         return
-
-
+  
 
 if __name__ == "__main__":
     #example input  
@@ -45,5 +43,8 @@ if __name__ == "__main__":
     k_i = [2,1] # 2 service center offer 2 and 1 kind of service respectively
     s_i_r = [1,1] # all service offer this kind of service
     print(minWaitingTime(t_r,n_r,k_i,s_i_r)) 
+
+
+
 
 
