@@ -1,8 +1,8 @@
+from enum import unique
 from django.db import models
 from django.db.models import Count, Sum
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import date
-import logging
 
 
 # Create your models here.
@@ -12,6 +12,12 @@ class Service(models.Model):
     tag = models.CharField(max_length=5)
     name = models.CharField(max_length=30)
     estimated_time = models.IntegerField()
+
+    class Meta:
+        constraints = [models.UniqueConstraint(
+            fields=['name', 'tag'],
+            name='unique_0'
+        )]
 
     def __str__(self) -> str:
         return f"{self.id}, {self.tag}, {self.name}, {self.estimated_time}"
@@ -23,7 +29,7 @@ class Counter(models.Model):
 
     class Meta:
         constraints = [models.UniqueConstraint(
-            fields=['id', 'service'],
+            fields=['_id', 'service'],
             name='unique_1'
         )]
 
@@ -58,9 +64,6 @@ class User(models.Model):
 
 
 class Dao:
-    def __init__(self):
-        self.logger = logging.getLogger(__name__)
-
     def get_services(self):
         # returns <QuerySet [('Shipping',), ('Account Management',), ('Credit Card',), ('Pension',)]>
         return Service.objects.values_list('name')
@@ -69,19 +72,20 @@ class Dao:
         try:
             service_info = Service.objects.get(name=service_name)
         except ObjectDoesNotExist:
-            self.logger.warning("ObjectDoesNotExist")
+            raise Exception()
         today = date.today().strftime("%Y-%m-%d")
         queue = Queue.objects.get(service=service_info.id, date=today)
         n_r = queue.last - queue.actual
         t_r = service_info.estimated_time
-        counters = Counter.objects.filter(service_id=service_info.id).annotate(num_services=Count('_id'))
+        counters_id = Counter.objects.filter(service=service_info.id).values_list('_id')
+        counters = Counter.objects.values('_id').annotate(num_services=Count('_id')).filter(_id__in=counters_id)
         sum = 0
         for c in counters:
-            sum += float(1 / c.num_services)
+            sum += float(1 / c['num_services'])
+        # print(t_r, " ", n_r, " ", sum)
+        return t_r * (float(n_r / sum) + 1 / 2)
 
-        return t_r * ((n_r / sum) + 1 / 2)
-
-    def next_client(self, counter_id):
+    def next_client(counter_id):
         services_list = Counter.objects.filter(_id=counter_id).values_list('service_id', flat=True)
         today = date.today().strftime("%Y-%m-%d")
         queues = Queue.objects.filter(service__in=services_list, date=today)
@@ -116,15 +120,15 @@ class Dao:
 
             candidate_queues[pos].actual += 1
             candidate_queues[pos].save()
-            return candidate_queues[pos].service.tag + str(q.actual)
+            return candidate_queues[pos].service.tag + str(candidate_queues[pos].actual)
 
-    def get_a_ticket(self, service_name):
+    def get_a_ticket(service_name):
 
         service_id = None
         try:
             service_id = Service.objects.get(name=service_name, )
         except ObjectDoesNotExist:
-            self.logger.warning("ObjectDoesNotExist")
+            raise Exception()
         today = date.today().strftime("%Y-%m-%d")
         queue, _ = Queue.objects.get_or_create(
             date=today,
@@ -132,10 +136,9 @@ class Dao:
             defaults={'actual': 0, 'last': 0})
         queue.last += 1
         queue.save()
-        return queue.last
+        return queue.service.tag + str(queue.last)
 
-    def stats(self):
-        print("inter")
+    def stats():
         this_month = date.today().strftime("%m")
         this_isoweek = int(date.today().strftime("%V"))
         today = date.today().strftime("%Y-%m-%d")

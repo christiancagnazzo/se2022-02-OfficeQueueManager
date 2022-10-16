@@ -7,4 +7,3 @@ admin.site.register(User)
 admin.site.register(Queue)
 admin.site.register(Counter)
 admin.site.register(Service)
-
