@@ -14,11 +14,8 @@ from .serializers import CounterSerializer
 class Statistics(APIView):
 
     def get(self, request):
-        statistics = Dao().stats()
+        statistics = Dao.stats()
         return Response(statistics)
-
-        pass
-
 
 # return a list of all the counters
 class CounterList(generics.ListCreateAPIView):
