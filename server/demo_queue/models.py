@@ -66,7 +66,7 @@ class User(models.Model):
 class Dao:
     def get_services(self):
         # returns <QuerySet [('Shipping',), ('Account Management',), ('Credit Card',), ('Pension',)]>
-        return Service.objects.values_list('name')
+        return Service.objects.values_list('tag', 'name')
 
     def minimum_waiting_time(self, service_name):
         try:
@@ -74,7 +74,11 @@ class Dao:
         except ObjectDoesNotExist:
             raise Exception()
         today = date.today().strftime("%Y-%m-%d")
-        queue = Queue.objects.get(service=service_info.id, date=today)
+        queue, _ = Queue.objects.get_or_create(
+            date=today,
+            service=service_info,
+            defaults={'actual': 0, 'last': 0})
+        #queue = Queue.objects.get(service=service_info.id, date=today)
         n_r = queue.last - queue.actual
         t_r = service_info.estimated_time
         counters_id = Counter.objects.filter(service=service_info.id).values_list('_id')
@@ -82,27 +86,33 @@ class Dao:
         sum = 0
         for c in counters:
             sum += float(1 / c['num_services'])
-        # print(t_r, " ", n_r, " ", sum)
+        print(t_r, " ", n_r, " ", sum)
         return t_r * (float(n_r / sum) + 1 / 2)
 
     def next_client(self, counter_id):
         services_list = Counter.objects.filter(_id=counter_id).values_list('service_id', flat=True)
         today = date.today().strftime("%Y-%m-%d")
+        for s in services_list:
+            service_info = Service.objects.get(id=s)
+            Queue.objects.get_or_create(
+                date=today,
+                service=service_info,
+                defaults={'actual': 0, 'last': 0})
         queues = Queue.objects.filter(service__in=services_list, date=today)
         if len(queues) == 0:
-            return -1
+            raise Exception("Counter not offer services")
         max_length = -1
         for q in queues:
             if q.last - q.actual > max_length:
                 max_length = q.last - q.actual
         if max_length < 1:
-            return -1
+            raise Exception("No client to serve")
         candidate_queues = []
         for q in queues:
             if q.last - q.actual == max_length:
                 candidate_queues.append(q)
         if len(candidate_queues) == 0:
-            return -1
+            raise Exception("No client to serve")
 
         if len(candidate_queues) == 1:
             candidate_queues[0].actual += 1

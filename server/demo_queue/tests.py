@@ -12,8 +12,10 @@ class ServicesTestCase(TestCase):
     def test_get_services(self):
         services_list = Dao().get_services()  
         self.assertEqual(services_list.count(), 2)
-        self.assertEqual(services_list[0][0], "Administration")
-        self.assertEqual(services_list[1][0], "Credit Card")
+        self.assertEqual(services_list[0][0], "A")
+        self.assertEqual(services_list[0][1], "Administration")
+        self.assertEqual(services_list[1][0], "CC")
+        self.assertEqual(services_list[1][1], "Credit Card")
         
 
 class NotEmptyQueueTestCase(TestCase):
