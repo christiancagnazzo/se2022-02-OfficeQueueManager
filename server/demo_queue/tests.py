@@ -10,10 +10,10 @@ class ServicesTestCase(TestCase):
         Service.objects.create(tag="A", name="Administration", estimated_time="315")
 
     def test_get_services(self):
-        services_list = Dao.get_services()  
+        services_list = Dao().get_services()  
         self.assertEqual(services_list.count(), 2)
-        self.assertEqual(services_list[0][0], "Credit Card")
-        self.assertEqual(services_list[1][0], "Administration")
+        self.assertEqual(services_list[0][0], "Administration")
+        self.assertEqual(services_list[1][0], "Credit Card")
         
 
 class NotEmptyQueueTestCase(TestCase):
@@ -71,7 +71,7 @@ class MinWaitTimeTestCase(TestCase):
         Counter.objects.create(_id="1", service=sp)
 
     def test_minimum_waiting_time(self):
-        min_wait_time = Dao.minimum_waiting_time("Deposit Money")
+        min_wait_time = Dao().minimum_waiting_time("Deposit Money")
         self.assertEqual(5 * ( (8/3) + (1/2)) , min_wait_time)
 
 
