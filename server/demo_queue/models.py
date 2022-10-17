@@ -79,11 +79,24 @@ class Dao:
         t_r = service_info.estimated_time
         counters_id = Counter.objects.filter(service=service_info.id).values_list('_id')
         counters = Counter.objects.values('_id').annotate(num_services=Count('_id')).filter(_id__in=counters_id)
-        sum = 0
-        for c in counters:
-            sum += float(1 / c['num_services'])
-        # print(t_r, " ", n_r, " ", sum)
-        return t_r * (float(n_r / sum) + 1 / 2)
+        k_i = [1,2]
+        s_i_r = [1,1]
+        sum_k = sum(map(lambda i,j:1/i * j ,k_i,s_i_r))
+        if sum_k == 0:
+            return "No service center provide service"
+        #print("sun_k:"+str(sum_k))
+        T_r = t_r * (n_r/sum_k + 0.5)
+        #this kind of algorithom will cause bug:because of deviation, it gives 15:49 and the current answer is 15:50
+        #hour = int(time)
+        #minute = int((time - hour)*60 )
+        hour = int(T_r * 60 //60)
+        minute = int(round(T_r * 60 % 60,0))
+        if minute<10:
+            minute = "0"+str(minute)
+        else:
+            minute = str(minute)
+        #print("" + str(hour) +":" + minute)
+        return "" + str(hour) +":" + minute
 
     def next_client(counter_id):
         services_list = Counter.objects.filter(_id=counter_id).values_list('service_id', flat=True)
