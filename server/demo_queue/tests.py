@@ -1,6 +1,6 @@
 from django.test import TestCase
 from .models import *
-
+from datetime import timedelta
 
 # Create your tests here.
 
@@ -10,11 +10,11 @@ class ServicesTestCase(TestCase):
         Service.objects.create(tag="A", name="Administration", estimated_time="315")
 
     def test_get_services(self):
-        services_list = Dao().get_services()
+        services_list = Dao.get_services()  
         self.assertEqual(services_list.count(), 2)
-        self.assertEqual(services_list[0][0], "Administration")
-        self.assertEqual(services_list[1][0], "Credit Card")
-
+        self.assertEqual(services_list[0][0], "Credit Card")
+        self.assertEqual(services_list[1][0], "Administration")
+        
 
 class NotEmptyQueueTestCase(TestCase):
     def setUp(self):
@@ -71,8 +71,8 @@ class MinWaitTimeTestCase(TestCase):
         Counter.objects.create(_id="1", service=sp)
 
     def test_minimum_waiting_time(self):
-        min_wait_time = Dao().minimum_waiting_time("Deposit Money")
-        self.assertEqual(5 * ((8 / 3) + (1 / 2)), min_wait_time)
+        min_wait_time = Dao.minimum_waiting_time("Deposit Money")
+        self.assertEqual(5 * ( (8/3) + (1/2)) , min_wait_time)
 
 
 class NextClientDifferentQueueLengthTestCase(TestCase):
@@ -124,6 +124,7 @@ class CompletedWorkFlowTestCase(TestCase):
         Counter.objects.create(_id="0", service=dm)
         Counter.objects.create(_id="1", service=dm)
         Counter.objects.create(_id="1", service=sp)
+       
 
     def test_next_client(self):
         last = Dao().get_a_ticket("Deposit Money")
@@ -156,7 +157,7 @@ class CompletedWorkFlowTestCase(TestCase):
         next_client = Dao().next_client(1)
         self.assertEqual(next_client, "SP" + str(2))
 
-
+"""
 class StatsTestCase(TestCase):
     def setUp(self):
         Service.objects.create(tag="DM", name="Deposit Money", estimated_time="10")
@@ -174,11 +175,19 @@ class StatsTestCase(TestCase):
         # Queue.objects.create(date="2022-09-16", service=sp, actual="20", last="20")
 
     def test_stats(self):
-        stats = Dao().stats()
+        stats = Dao.stats()
+        
+        self.assertEqual(stats["daily"]["Deposit Money"], 4)
+        self.assertEqual(stats["daily"]["Sending Packages"], 12)
+        self.assertEqual(stats["weekly"]["Deposit Money"], 15)
+        self.assertEqual(stats["weekly"]["Sending Packages"], 19)
+        self.assertEqual(stats["monthly"]["Deposit Money"], 21)
+        self.assertEqual(stats["monthly"]["Sending Packages"], 29)
+        
+        
 
-        # self.assertEqual(stats["daily"]["Deposit Money"], 4)
-        # self.assertEqual(stats["daily"]["Sending Packages"], 12)
-        # self.assertEqual(stats["weekly"]["Deposit Money"], 15)
-        # self.assertEqual(stats["weekly"]["Sending Packages"], 19)
-        # self.assertEqual(stats["monthly"]["Deposit Money"], 21)
-        # self.assertEqual(stats["monthly"]["Sending Packages"], 29)
+
+
+        
+
+
