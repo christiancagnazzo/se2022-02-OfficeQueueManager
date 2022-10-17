@@ -60,5 +60,26 @@ async function postQueue(n) {
     }
   }
 
-const API = {getAllInfos,login,logout, getUserInfo,postQueue};
+  async function nextClient(){
+    const response = await fetch(URL+'officer', {method: 'POST', credential: 'include'});
+    const next = await response.json();
+    if (response.ok){
+      return next;
+    }else
+    {
+      throw next;
+    }
+  }
+
+  async function update(){
+    const response = await fetch(URL+'manager',{method: 'GET', credential: 'include'});
+    const up=await response.json();
+    if (response.ok){
+      return up;
+    }else{
+      throw up;
+    }
+  }
+
+const API = {getAllInfos,login,logout, getUserInfo,postQueue,nextClient,update};
 export default API;

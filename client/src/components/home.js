@@ -1,7 +1,4 @@
 import { Button,ButtonGroup } from 'react-bootstrap';
-
-
-
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 function Home(props) {
@@ -36,6 +33,8 @@ return (<>
     return (<>
     <div>servizio</div>
     <div>coda</div>
+    <div>numero ultimo servito: x</div>
+    <div>operatore numero: x</div>
     </>)
 }
 
