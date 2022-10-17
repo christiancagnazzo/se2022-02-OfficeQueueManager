@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ebe32f64-1794-409d-a129-e3b416d3f8b7" name="Default Changelist" comment="last change">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/05e69ff3-33cd-4a76-9a38-a67ce3238694.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/05e69ff3-33cd-4a76-9a38-a67ce3238694.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo_queue/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/demo_queue/models.py" afterDir="false" />
+    <list default="true" id="ebe32f64-1794-409d-a129-e3b416d3f8b7" name="Default Changelist" comment="last changes">
       <change beforePath="$PROJECT_DIR$/demo_queue/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/demo_queue/tests.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -259,7 +255,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665936543641</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="last changes">
+      <created>1665999877104</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1665999877104</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -279,7 +282,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add get api for statics with &#10;Url:&#10;http://127.0.0.1:8000/demo/Statistics/&#10;&#10;Add sample of api &#10;add admin panel" />
     <MESSAGE value="last change" />
-    <option name="LAST_COMMIT_MESSAGE" value="last change" />
+    <MESSAGE value="last changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="last changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
