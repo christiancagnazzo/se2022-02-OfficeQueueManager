@@ -68,8 +68,9 @@ class MinWaitTimeTestCase(TestCase):
         Counter.objects.create(_id="1", service=sp)
 
     def test_minimum_waiting_time(self):
-        min_wait_time = Dao.minimum_waiting_time("Deposit Money")
-        self.assertEqual(5 * ( (8/3) + (1/2)) , min_wait_time)
+        min_wait_time = Dao.minimum_waiting_time(self,"Deposit Money")
+        #print(min_wait_time)
+        self.assertEqual("15:50" , min_wait_time)
 
 class NextClientDifferentQueueLengthTestCase(TestCase):
     def setUp(self):
