@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ebe32f64-1794-409d-a129-e3b416d3f8b7" name="Default Changelist" comment="last change">
-      <change beforePath="$PROJECT_DIR$/demo_queue/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/demo_queue/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo_queue/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/demo_queue/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/05e69ff3-33cd-4a76-9a38-a67ce3238694.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/05e69ff3-33cd-4a76-9a38-a67ce3238694.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/demo_queue/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/demo_queue/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo_queue/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/demo_queue/tests.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,21 +43,121 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/md/Desktop/collage/soft2/server",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/md/Desktop/collage/soft2/server&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
       <recent name="$APPLICATION_CONFIG_DIR$/extensions" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Django tests.Test: demo_queue.tests.StatsTestCase.test_stats">
+    <configuration name="Test: demo_queue.tests.NextClientDifferentQueueLengthTestCase" type="DjangoTestsConfigurationType" temporary="true">
+      <module name="server" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="TARGET" value="demo_queue.tests.NextClientDifferentQueueLengthTestCase" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Test: demo_queue.tests.NextClientSameQueueLengthTestCase" type="DjangoTestsConfigurationType" temporary="true">
+      <module name="server" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="TARGET" value="demo_queue.tests.NextClientSameQueueLengthTestCase" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Test: demo_queue.tests.NextClientSameQueueLengthTestCase.test_next_client" type="DjangoTestsConfigurationType" temporary="true">
+      <module name="server" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="TARGET" value="demo_queue.tests.NextClientSameQueueLengthTestCase.test_next_client" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Test: demo_queue.tests.StatsTestCase" type="DjangoTestsConfigurationType" temporary="true">
+      <module name="server" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="TARGET" value="demo_queue.tests.StatsTestCase" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Test: demo_queue.tests.StatsTestCase.test_stats" type="DjangoTestsConfigurationType" temporary="true">
+      <module name="server" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="TARGET" value="demo_queue.tests.StatsTestCase.test_stats" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="Python.DjangoServer" factoryName="Django server">
       <module name="server" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -103,6 +205,23 @@
       <option name="customRunCommand" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Django Server.server" />
+      <item itemvalue="Django tests.Test: demo_queue.tests.NextClientDifferentQueueLengthTestCase" />
+      <item itemvalue="Django tests.Test: demo_queue.tests.NextClientSameQueueLengthTestCase" />
+      <item itemvalue="Django tests.Test: demo_queue.tests.NextClientSameQueueLengthTestCase.test_next_client" />
+      <item itemvalue="Django tests.Test: demo_queue.tests.StatsTestCase" />
+      <item itemvalue="Django tests.Test: demo_queue.tests.StatsTestCase.test_stats" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Django tests.Test: demo_queue.tests.StatsTestCase.test_stats" />
+        <item itemvalue="Django tests.Test: demo_queue.tests.StatsTestCase" />
+        <item itemvalue="Django tests.Test: demo_queue.tests.NextClientSameQueueLengthTestCase.test_next_client" />
+        <item itemvalue="Django tests.Test: demo_queue.tests.NextClientSameQueueLengthTestCase" />
+        <item itemvalue="Django tests.Test: demo_queue.tests.NextClientDifferentQueueLengthTestCase" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -171,5 +290,20 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/server$Test__.coverage" NAME="Test:  Coverage Results" MODIFIED="1665999496200" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/server$Test__demo_queue_tests_QueueTestCase_test_get_services.coverage" NAME="Test: demo_queue.tests.QueueTestCase.test_get_services Coverage Results" MODIFIED="1665999157785" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/server$Test__demo_queue_tests_ServicesTestCase.coverage" NAME="Test: demo_queue.tests.ServicesTestCase Coverage Results" MODIFIED="1665999129296" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/server$Test__demo_queue_tests_MinWaitTimeTestCase_test_minimum_waiting_time.coverage" NAME="Test: demo_queue.tests.MinWaitTimeTestCase.test_minimum_waiting_time Coverage Results" MODIFIED="1665999176890" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/server$Test__demo_queue_tests_MinWaitTimeTestCase.coverage" NAME="Test: demo_queue.tests.MinWaitTimeTestCase Coverage Results" MODIFIED="1665999170857" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/server$Test__demo_queue_tests_NextClientSameQueueLengthTestCase_test_next_client.coverage" NAME="Test: demo_queue.tests.NextClientSameQueueLengthTestCase.test_next_client Coverage Results" MODIFIED="1665999482558" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/server$Test__demo_queue_tests_StatsTestCase.coverage" NAME="Test: demo_queue.tests.StatsTestCase Coverage Results" MODIFIED="1665999621546" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/server$Test__demo_queue_tests_ServicesTestCase_test_get_services.coverage" NAME="Test: demo_queue.tests.ServicesTestCase.test_get_services Coverage Results" MODIFIED="1665998992339" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/server$Test__demo_queue_tests_NotEmptyQueueTestCase.coverage" NAME="Test: demo_queue.tests.NotEmptyQueueTestCase Coverage Results" MODIFIED="1665999141561" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/server$Test__demo_queue_tests_QueueTestCase.coverage" NAME="Test: demo_queue.tests.QueueTestCase Coverage Results" MODIFIED="1665999150808" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/server$Test__demo_queue_tests_NextClientSameQueueLengthTestCase.coverage" NAME="Test: demo_queue.tests.NextClientSameQueueLengthTestCase Coverage Results" MODIFIED="1665999191778" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/server$Test__demo_queue_tests_NextClientDifferentQueueLengthTestCase.coverage" NAME="Test: demo_queue.tests.NextClientDifferentQueueLengthTestCase Coverage Results" MODIFIED="1665999182157" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/server$Test__demo_queue_tests_StatsTestCase_test_stats.coverage" NAME="Test: demo_queue.tests.StatsTestCase.test_stats Coverage Results" MODIFIED="1665999758860" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

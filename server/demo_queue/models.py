@@ -85,7 +85,7 @@ class Dao:
         # print(t_r, " ", n_r, " ", sum)
         return t_r * (float(n_r / sum) + 1 / 2)
 
-    def next_client(counter_id):
+    def next_client(self, counter_id):
         services_list = Counter.objects.filter(_id=counter_id).values_list('service_id', flat=True)
         today = date.today().strftime("%Y-%m-%d")
         queues = Queue.objects.filter(service__in=services_list, date=today)
@@ -122,7 +122,7 @@ class Dao:
             candidate_queues[pos].save()
             return candidate_queues[pos].service.tag + str(candidate_queues[pos].actual)
 
-    def get_a_ticket(service_name):
+    def get_a_ticket(self, service_name):
 
         service_id = None
         try:
@@ -138,7 +138,7 @@ class Dao:
         queue.save()
         return queue.service.tag + str(queue.last)
 
-    def stats():
+    def stats(self):
         this_month = date.today().strftime("%m")
         this_isoweek = int(date.today().strftime("%V"))
         today = date.today().strftime("%Y-%m-%d")
