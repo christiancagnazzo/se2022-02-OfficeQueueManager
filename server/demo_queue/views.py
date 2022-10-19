@@ -45,7 +45,25 @@ class NextClient(APIView):
 
         return Response(next_client)
         
-    
 
+class ListOfServices(APIView):
+    def get(self):
+        return Response(Dao().get_services())
+
+
+class GetATicket(APIView):
+    def put(self, request):
+        data = request.data
+        list_of_services = Dao().get_services()
+
+        if data not in list_of_services:
+            return Response(status = 400, data = "Service not Found")
+
+        try:
+            ticket = Dao().get_a_ticket(data)
+        except Exception as e:
+            return Response(status = 400, data = str(e))
+
+        return Response(ticket)
 
 
