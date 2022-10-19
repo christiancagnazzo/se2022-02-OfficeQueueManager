@@ -1,7 +1,5 @@
 from django.urls import path
-from rest_framework.urlpatterns import format_suffix_patterns
-
-from .views import MinimumWaitingTime, NextClient, Statistics, CounterList
+from .views import MinimumWaitingTime, NextClient, Statistics, CounterList, Services, Ticket
 
 app_name = 'demo_queue'
 urlpatterns = [
@@ -9,4 +7,6 @@ urlpatterns = [
     path('Counter/', CounterList.as_view()),
     path('MinimumWaitingTime/<str:service_tag>/', MinimumWaitingTime.as_view()),
     path('NextClient', NextClient.as_view()),
+    path('Ticket', Ticket.as_view()),
+    path('Services/', Services.as_view()),
 ]
