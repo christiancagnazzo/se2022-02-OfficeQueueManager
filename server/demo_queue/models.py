@@ -172,3 +172,13 @@ class Dao:
             stats['monthly'][q['service__name']] = q['tot']
 
         return stats
+
+    def get_queue(self, service_name):
+        today = date.today().strftime("%Y-%m-%d")
+        service_info = Service.objects.get(name=service_name)
+        queue, _ = Queue.objects.get_or_create(
+                    date=today,
+                    service=service_info,
+                    defaults={'actual': 0, 'last': 0})
+            
+        return queue

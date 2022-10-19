@@ -48,7 +48,15 @@ class NextClient(APIView):
 
 class Services(APIView):
     def get(self, request):
-        return Response(Dao().get_services())
+        list_of_services = Dao().get_services();
+
+        result = [];
+
+        for s in list_of_services:
+            queue = Dao().get_queue(s[1])
+            result.append( [s[0], s[1], queue.last, queue.actual]);
+
+        return Response(result)
 
 
 class Ticket(APIView):
@@ -62,7 +70,8 @@ class Ticket(APIView):
 
         for s in list_of_services:
             if s[1] == data["service_name"]:
-                return Response(data= {"Ticket" : Dao().get_a_ticket(data["service_name"])})
+                return Response(data= {"Ticket" : Dao().get_a_ticket(data["service_name"]), 
+                                        "Time": Dao().minimum_waiting_time(data['service_name'])})
 
         return Response(status = 400, data = "Service Not Found")
 

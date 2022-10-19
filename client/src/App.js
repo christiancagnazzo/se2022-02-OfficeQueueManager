@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import API from './API';
 import Home from './components/home';
 import Officer from './components/officer';
-import { Container, Row } from 'react-bootstrap';
+import { Alert, Container, Row } from 'react-bootstrap';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { LoginForm } from './components/login';
@@ -26,11 +26,13 @@ function App2() {
   const [message, setMessage] = useState('');
   const [services,setServices]=useState([1]);
   const [dirty,setDirty]=useState(true);
-  const [ticket,setTicket]=useState('');
-  const [info,setInfo]=useState([])
+  const [gettedTicket,setGettedTicket]=useState('-');
+  const [minWait,setMinWait]=useState('-');
+  const [ticket,setTicket]=useState('-');
+  const [info,setInfo]=useState(null)
   
   const navigate = useNavigate();
-  useEffect(()=> {
+  /*useEffect(()=> {
     const checkAuth = async() => {
       if (dirty && loggedIn)  
         try {
@@ -44,7 +46,7 @@ function App2() {
         }
     };
       checkAuth();
-}, [dirty,loggedIn,user]);
+}, [dirty,loggedIn,user]);*/
 
 useEffect(()=> {
   const getInfos = async() => {
@@ -92,30 +94,41 @@ function handleError(err){
         )
   }
 
-  const updateQueue= async (n)=>{
-    await API.postQueue().catch(err => handleError(err)) 
-    setDirty(true)
+  const updateQueue= async (service)=>{
+    try {
+      let res = await API.postQueue(service);
+      setDirty(true);
+      setGettedTicket(res['Ticket'])
+      setMinWait(res['Time'])
+    } catch(err) {
+        handleError(err)
+    }
   }
 
-  const nextClient= async()=>{
-    await API.nextClient()
-    .then((c)=>{setTicket(c)}).catch(err => handleError(err))
+  const nextClient= async(counter)=>{
+    await API.nextClient(counter)
+    .then((c)=>{setTicket(c['next_client'])}).catch(err => setTicket(err))
   }
   const update=async()=>{
     await API.update().then((c)=>{setInfo(c)}).catch(err=>handleError(err))
   }
 
-console.log("ciao")
   return (
     <>
-    <MyNavbar2 loggedIn={loggedIn} logout={doLogout} login={login}/>
+    {/*<MyNavbar2 loggedIn={loggedIn} logout={doLogout} login={login}/>*/}
     <Container fluid>
        <Row className="vheight-100">
             <Routes> 
-               <Route path='/' element={(loggedIn ? <Navigate to='/officer' /> : <Home services={services} updateQueue={updateQueue} /*cc={cc} setCc = {setCc} piano={piano} setPiano={setPiano} updateUser={updateUser} */loggedIn={loggedIn}  ></Home>)}></Route>
+              {/* 
+               <Route path='/' element={(loggedIn ? <Navigate to='/officer' /> : <Home services={services} updateQueue={updateQueue} gettedTicket={gettedTicket} minWait={minWait} loggedIn={loggedIn}  ></Home>)}></Route>
                <Route path='/login'  element={loggedIn ? <Navigate to='/officer' /> : <LoginForm login={doLogin} loginError={message} setLoginError={setMessage} /> }/>
                <Route path='/officer'  element={(loggedIn && !flag) ? <Officer next={nextClient} client={ticket}/> : <Navigate to='/manager' />}/>
                <Route path='/manager'  element={true ? <Manager update={update} info={info}/> : <Navigate to='/' />}/>
+               <Route />
+               */}
+               <Route path='/' element={<Home services={services} updateQueue={updateQueue} gettedTicket={gettedTicket} minWait={minWait} loggedIn={loggedIn}  ></Home>}></Route>
+               <Route path='/officer'  element={<Officer next={nextClient} client={ticket}/>}/>
+               <Route path='/manager'  element={<Manager setInfo={setInfo} update={update} info={info}/>}/>
                <Route />
             </Routes>
        </Row>

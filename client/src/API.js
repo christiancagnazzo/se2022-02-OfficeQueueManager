@@ -1,23 +1,22 @@
-const URL = "http://localhost:3001/"
+const URL = "http://127.0.0.1:8000/demo/"
 
 //USED TO GET INFO ABOUT QUEE FROM SERVER
 async function getAllInfos(){
-    const response = await fetch(URL);
+    const response = await fetch(URL+'Services/');
     const services = await response.json();
     if(response.ok){
-        return services.map((c) => ({id:c.id, info1:c.info1, info2:c.info2, info3:c.info1info3}))
+        return services.map((c) => ({tag:c[0], name:c[1], last:c[2], actual: c[3]}))
     } else {
         throw services;
     }
 }
-async function postQueue(n) {
-  let response = await fetch(URL, {
-    method: 'POST',
-    credentials: 'include',
+async function postQueue(service) {
+  let response = await fetch(URL+'Ticket', {
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(n),
+    body: JSON.stringify({ 'service_name': service}),
   });
   if (response.ok) {
     const queue = await response.json();
@@ -60,8 +59,14 @@ async function postQueue(n) {
     }
   }
 
-  async function nextClient(){
-    const response = await fetch(URL+'officer', {method: 'POST', credential: 'include'});
+  async function nextClient(counter){
+    const response = await fetch(URL+'NextClient', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ 'counter_id': counter}),
+    });
     const next = await response.json();
     if (response.ok){
       return next;
@@ -72,7 +77,7 @@ async function postQueue(n) {
   }
 
   async function update(){
-    const response = await fetch(URL+'manager',{method: 'GET', credential: 'include'});
+    const response = await fetch(URL+'Statistics/',{method: 'GET', credential: 'include'});
     const up=await response.json();
     if (response.ok){
       return up;
