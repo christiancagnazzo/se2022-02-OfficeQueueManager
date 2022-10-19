@@ -1,8 +1,12 @@
-from django.test import TestCase
+import json
+from symbol import factor
+from django.test import RequestFactory, TestCase
 from .models import *
-from datetime import timedelta
+from rest_framework.test import APITestCase
 
 # Create your tests here.
+
+# UNIT TEST
 
 class ServicesTestCase(TestCase):
     def setUp(self):
@@ -184,12 +188,45 @@ class StatsTestCase(TestCase):
         self.assertEqual(stats["weekly"]["Deposit Money"], 15)
         self.assertEqual(stats["weekly"]["Sending Packages"], 19)
         self.assertEqual(stats["monthly"]["Deposit Money"], 21)
-        self.assertEqual(stats["monthly"]["Sending Packages"], 29)
-        
-        
+        self.assertEqual(stats["monthly"]["Sending Packages"], 29)    
 """
 
+# INTEGRATION TEST
 
-        
+class MinWaitTimeTestCaseAPITest(APITestCase): 
+    def setUp(self):
+        Service.objects.create(tag="DM", name="Deposit Money", estimated_time="5")
+        Service.objects.create(tag="SP", name="Sending Packages", estimated_time="10")
+        sp = Service.objects.get(name="Sending Packages", )
+        dm = Service.objects.get(name="Deposit Money", )
+
+        Queue.objects.create(date=date.today().strftime("%Y-%m-%d"), service=dm, actual="0", last="4")
+
+        Counter.objects.create(_id="0", service=dm)
+        Counter.objects.create(_id="1", service=dm)
+        Counter.objects.create(_id="1", service=sp)
+
+    def test_min_wait_time_api(self):
+        response = self.client.get('/demo/MinimumWaitingTime/DM', format='json', follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, {'result': 5 * ( (8/3) + (1/2))})
 
 
+class NextClientAPITest(APITestCase):
+    def setUp(self):
+        Service.objects.create(tag="DM", name="Deposit Money", estimated_time="5")
+        Service.objects.create(tag="SP", name="Sending Packages", estimated_time="10")
+        sp = Service.objects.get(name="Sending Packages", )
+        dm = Service.objects.get(name="Deposit Money", )
+
+        Queue.objects.create(date=date.today().strftime("%Y-%m-%d"), service=dm, actual="5", last="12")
+        Queue.objects.create(date=date.today().strftime("%Y-%m-%d"), service=sp, actual="3", last="7")
+
+        Counter.objects.create(_id="0", service=dm)
+        Counter.objects.create(_id="1", service=dm)
+        Counter.objects.create(_id="1", service=sp)
+
+    def test_next_client_api(self):
+        response = self.client.put('/demo/NextClient', format='json', data={"counter_id": 1}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, {'next_client': 'DM6'})

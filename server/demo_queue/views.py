@@ -27,7 +27,7 @@ class MinimumWaitingTime(APIView):
         
         for s in services:
             if s[0] == service_tag:
-                return Response(Dao().minimum_waiting_time(s[1]))
+                return Response(data= {"result" : Dao().minimum_waiting_time(s[1])})
 
         return Response(status = 400, data = "Service Not Found")
 
@@ -43,7 +43,7 @@ class NextClient(APIView):
         except Exception as e:
             return Response(status = 400, data = str(e))
 
-        return Response(next_client)
+        return Response(data={'next_client': next_client})
         
     
 
