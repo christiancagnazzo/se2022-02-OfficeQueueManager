@@ -230,3 +230,57 @@ class NextClientAPITest(APITestCase):
         response = self.client.put('/demo/NextClient', format='json', data={"counter_id": 1}, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, {'next_client': 'DM6'})
+
+
+class CompletedWorkFlowAPITestCase(APITestCase):
+    def setUp(self):
+        Service.objects.create(tag="DM", name="Deposit Money", estimated_time="10")
+        Service.objects.create(tag="SP", name="Sending Packages", estimated_time="5")
+
+        sp = Service.objects.get(name="Sending Packages", )
+        dm = Service.objects.get(name="Deposit Money", )
+
+        Counter.objects.create(_id="0", service=dm)
+        Counter.objects.create(_id="1", service=dm)
+        Counter.objects.create(_id="1", service=sp)
+
+    def test_workflow_api(self):
+        response = self.client.put('/demo/Ticket', format='json', data={"service_name": "Deposit Money"}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['Ticket'], "DM1")
+
+        response = self.client.put('/demo/Ticket', format='json', data={"service_name": "Deposit Money"}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['Ticket'], "DM2")
+
+        response = self.client.put('/demo/Ticket', format='json', data={"service_name": "Sending Packages"}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['Ticket'], "SP1")
+       
+        response = self.client.put('/demo/Ticket', format='json', data={"service_name": "Deposit Money"}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['Ticket'], "DM3")
+
+        response = self.client.put('/demo/Ticket', format='json', data={"service_name": "Sending Packages"}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['Ticket'], "SP2")
+        
+        response = self.client.put('/demo/NextClient', format='json', data={"counter_id": 1}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, {'next_client': 'DM1'})
+
+        response = self.client.put('/demo/NextClient', format='json', data={"counter_id": 0}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, {'next_client': 'DM2'})
+
+        response = self.client.put('/demo/NextClient', format='json', data={"counter_id": 1}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, {'next_client': 'SP1'})
+
+        response = self.client.put('/demo/NextClient', format='json', data={"counter_id": 0}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, {'next_client': 'DM3'})
+
+        response = self.client.put('/demo/NextClient', format='json', data={"counter_id": 1}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, {'next_client': 'SP2'})
