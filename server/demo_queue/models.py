@@ -86,7 +86,7 @@ class Dao:
         sum = 0
         for c in counters:
             sum += float(1 / c['num_services'])
-        print(t_r, " ", n_r, " ", sum)
+        
         return t_r * (float(n_r / sum) + 1 / 2)
 
     def next_client(self, counter_id):

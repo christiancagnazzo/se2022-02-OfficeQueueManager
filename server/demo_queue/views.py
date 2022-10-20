@@ -9,6 +9,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Dao, Counter
 from .serializers import CounterSerializer
+from time import gmtime
+from time import strftime
 
 
 class Statistics(APIView):
@@ -27,7 +29,8 @@ class MinimumWaitingTime(APIView):
         
         for s in services:
             if s[0] == service_tag:
-                return Response(data= {"result" : Dao().minimum_waiting_time(s[1])})
+                print("ok")
+                return Response(data= {"result" : strftime("%H:%M:%S", gmtime(Dao().minimum_waiting_time(s[1]))) })
 
         return Response(status = 400, data = "Service Not Found")
 
@@ -71,7 +74,7 @@ class Ticket(APIView):
         for s in list_of_services:
             if s[1] == data["service_name"]:
                 return Response(data= {"Ticket" : Dao().get_a_ticket(data["service_name"]), 
-                                        "Time": Dao().minimum_waiting_time(data['service_name'])})
+                                        "Time": strftime("%H:%M:%S", gmtime(Dao().minimum_waiting_time(data['service_name'])))})
 
         return Response(status = 400, data = "Service Not Found")
 

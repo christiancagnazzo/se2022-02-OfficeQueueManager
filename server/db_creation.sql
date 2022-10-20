@@ -55,7 +55,7 @@ INSERT INTO demo_queue_user (username, password, salt, role) VALUES
 ('officer3', 'officer', 'no salt atm', 'officer');
 
 
-UPDATE demo_queue_queue SET last = 4
+UPDATE demo_queue_queue SET last = 0
 SELECT * FROM demo_queue_counter
 SELECT * FROM demo_queue_service
 

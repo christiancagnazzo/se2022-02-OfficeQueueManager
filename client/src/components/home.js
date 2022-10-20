@@ -8,7 +8,7 @@ function Home(props) {
         <>
             <Alert className='center'>
                 <div> Your ticket is: {props.gettedTicket}</div>
-                <div>Minimum waiting time: {props.minWait} minutes</div>
+                <div>Minimum waiting time: {props.minWait}</div>
             </Alert>
             {
                 props.services.map( (s,i)=> {
