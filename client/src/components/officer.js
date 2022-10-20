@@ -1,24 +1,25 @@
 import { Button} from 'react-bootstrap';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import  {useParams, useLocation} from  'react-router-dom';
 
-const HARD_CODED_COUNTER = 1 // only for the demo
 
 function Officer(props) {
-
+    const {id} = useParams()
+    console.log(id)
     return (
-            <Button type="button"  onClick={() => {clicking(props.next)}}>{ButtonSet(props.client)}</Button>        
+            <Button type="button"  onClick={() => {clicking(props.next, id)}}>{ButtonSet(props.client, id)}</Button>        
     );
 }
-function ButtonSet(n){
+function ButtonSet(n, counter_id){
     return (<>
-    <div>Counter: {HARD_CODED_COUNTER}</div>
+    <div>Counter: {counter_id} </div>
     <div>You are serving: {n}</div>
     <div>Click to call next client</div>
     </>)
 }
 
-function clicking(next){
-    next(HARD_CODED_COUNTER);
+function clicking(next,id){
+    next(id);
 }
 
 export default Officer;

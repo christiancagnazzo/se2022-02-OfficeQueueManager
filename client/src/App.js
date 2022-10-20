@@ -127,7 +127,7 @@ function handleError(err){
                <Route />
                */}
                <Route path='/' element={<Home services={services} updateQueue={updateQueue} gettedTicket={gettedTicket} minWait={minWait} loggedIn={loggedIn}  ></Home>}></Route>
-               <Route path='/officer'  element={<Officer next={nextClient} client={ticket}/>}/>
+               <Route path='/officer/:id'  element={<Officer next={nextClient} client={ticket}/>}/>
                <Route path='/manager'  element={<Manager setInfo={setInfo} update={update} info={info}/>}/>
                <Route />
             </Routes>
